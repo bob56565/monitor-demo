@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MONITOR - Health Intelligence Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-shadow { box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        .pulse-glow { animation: pulse-glow 2s infinite; }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.8); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen" x-data="monitorApp()">
+    <!-- Nav -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center">
+                    <span class="text-white font-bold text-sm">M</span>
+                </div>
+                <span class="text-xl font-semibold text-gray-900">MONITOR</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="#demo" class="text-gray-600 hover:text-gray-900">Demo</a>
+                <a href="#features" class="text-gray-600 hover:text-gray-900">Features</a>
+                <button class="gradient-bg text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition">
+                    Get Early Access
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="gradient-bg py-20">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h1 class="text-5xl font-bold text-white mb-6">
+                Turn Lab Results Into<br>Actionable Health Insights
+            </h1>
+            <p class="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
+                MONITOR analyzes your biomarkers with clinical-grade AI to deliver 
+                confidence-scored health insights—not just numbers.
+            </p>
+            <div class="flex justify-center space-x-4">
+                <button @click="showDemo = true" class="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-purple-50 transition">
+                    Try Demo
+                </button>
+                <button class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white/10 transition">
+                    Learn More
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="py-12 bg-white">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="grid grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-4xl font-bold text-purple-600">40+</div>
+                    <div class="text-gray-500 mt-1">Clinical Outputs</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-purple-600">5</div>
+                    <div class="text-gray-500 mt-1">Specimen Types</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-purple-600">48</div>
+                    <div class="text-gray-500 mt-1">Verified Biomarkers</div>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-purple-600">100%</div>
+                    <div class="text-gray-500 mt-1">Explainable</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-4">See It In Action</h2>
+            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+                Enter sample lab values below and watch MONITOR generate clinical insights with confidence scores.
+            </p>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Input Panel -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h3 class="font-semibold text-lg text-gray-900 mb-4">📊 Enter Lab Values</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Fasting Glucose (mg/dL)</label>
+                            <input type="number" x-model="inputs.glucose" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="70-100 normal">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">HbA1c (%)</label>
+                            <input type="number" step="0.1" x-model="inputs.a1c" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="4.0-5.6 normal">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Total Cholesterol (mg/dL)</label>
+                            <input type="number" x-model="inputs.cholesterol" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="<200 desirable">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">LDL Cholesterol (mg/dL)</label>
+                            <input type="number" x-model="inputs.ldl" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="<100 optimal">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">HDL Cholesterol (mg/dL)</label>
+                            <input type="number" x-model="inputs.hdl" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder=">40 M, >50 F">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Triglycerides (mg/dL)</label>
+                            <input type="number" x-model="inputs.triglycerides" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="<150 normal">
+                        </div>
+                    </div>
+                    
+                    <button @click="runInference()" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold mt-6 hover:opacity-90 transition" :class="{'pulse-glow': processing}">
+                        <span x-show="!processing">🧬 Analyze Biomarkers</span>
+                        <span x-show="processing">Processing...</span>
+                    </button>
+                    
+                    <button @click="loadSampleData()" class="w-full border border-gray-300 text-gray-600 py-2 rounded-lg mt-3 hover:bg-gray-50 transition text-sm">
+                        Load Sample Data
+                    </button>
+                </div>
+
+                <!-- Results Panel -->
+                <div class="bg-white rounded-2xl card-shadow p-6">
+                    <h3 class="font-semibold text-lg text-gray-900 mb-4">🎯 Clinical Insights</h3>
+                    
+                    <template x-if="!hasResults">
+                        <div class="text-center py-12 text-gray-400">
+                            <div class="text-5xl mb-4">🔬</div>
+                            <p>Enter lab values and click Analyze to see insights</p>
+                        </div>
+                    </template>
+                    
+                    <template x-if="hasResults">
+                        <div class="space-y-4">
+                            <template x-for="insight in results" :key="insight.key">
+                                <div class="border rounded-lg p-4" :class="insight.risk === 'HIGH' ? 'border-red-200 bg-red-50' : insight.risk === 'MODERATE' ? 'border-yellow-200 bg-yellow-50' : 'border-green-200 bg-green-50'">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="font-medium text-gray-900" x-text="insight.title"></h4>
+                                            <p class="text-sm text-gray-600 mt-1" x-text="insight.explanation"></p>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="px-2 py-1 rounded text-xs font-medium" 
+                                                :class="insight.risk === 'HIGH' ? 'bg-red-100 text-red-700' : insight.risk === 'MODERATE' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'"
+                                                x-text="insight.risk"></span>
+                                            <div class="text-sm text-gray-500 mt-1" x-text="insight.confidence + '% confidence'"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                        <div class="h-full rounded-full" 
+                                            :class="insight.risk === 'HIGH' ? 'bg-red-500' : insight.risk === 'MODERATE' ? 'bg-yellow-500' : 'bg-green-500'"
+                                            :style="'width: ' + insight.confidence + '%'"></div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Why MONITOR?</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <span class="text-3xl">🎯</span>
+                    </div>
+                    <h3 class="font-semibold text-lg text-gray-900 mb-2">Confidence Scoring</h3>
+                    <p class="text-gray-600">Every insight comes with an explicit confidence level and the reasoning behind it.</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <span class="text-3xl">🧬</span>
+                    </div>
+                    <h3 class="font-semibold text-lg text-gray-900 mb-2">Multi-Specimen Fusion</h3>
+                    <p class="text-gray-600">Combine blood, saliva, urine, sweat, and ISF data for complete health picture.</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <span class="text-3xl">📋</span>
+                    </div>
+                    <h3 class="font-semibold text-lg text-gray-900 mb-2">Clinically Verified</h3>
+                    <p class="text-gray-600">All reference ranges verified against ADA, AHA, and NIH guidelines.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="gradient-bg py-16">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-white mb-4">Ready to understand your health data?</h2>
+            <p class="text-purple-100 mb-8">Join the waitlist for early access to MONITOR.</p>
+            <div class="flex justify-center max-w-md mx-auto">
+                <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-3 rounded-l-lg focus:outline-none">
+                <button class="bg-gray-900 text-white px-6 py-3 rounded-r-lg font-semibold hover:bg-gray-800 transition">
+                    Join Waitlist
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p>© 2026 MONITOR Health Intelligence. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function monitorApp() {
+            return {
+                showDemo: false,
+                processing: false,
+                hasResults: false,
+                inputs: {
+                    glucose: '',
+                    a1c: '',
+                    cholesterol: '',
+                    ldl: '',
+                    hdl: '',
+                    triglycerides: ''
+                },
+                results: [],
+                
+                loadSampleData() {
+                    this.inputs = {
+                        glucose: 108,
+                        a1c: 5.9,
+                        cholesterol: 215,
+                        ldl: 135,
+                        hdl: 42,
+                        triglycerides: 178
+                    };
+                },
+                
+                runInference() {
+                    this.processing = true;
+                    this.results = [];
+                    
+                    setTimeout(() => {
+                        const g = parseFloat(this.inputs.glucose) || 0;
+                        const a1c = parseFloat(this.inputs.a1c) || 0;
+                        const chol = parseFloat(this.inputs.cholesterol) || 0;
+                        const ldl = parseFloat(this.inputs.ldl) || 0;
+                        const hdl = parseFloat(this.inputs.hdl) || 0;
+                        const trig = parseFloat(this.inputs.triglycerides) || 0;
+                        
+                        // Metabolic assessment
+                        if (g > 0 && a1c > 0) {
+                            let risk = 'LOW';
+                            let conf = 85;
+                            let explanation = 'Blood sugar markers within normal range.';
+                            
+                            if (g >= 126 || a1c >= 6.5) {
+                                risk = 'HIGH';
+                                conf = 92;
+                                explanation = 'Markers consistent with diabetes. Fasting glucose ≥126 or A1c ≥6.5% indicates diabetes per ADA criteria.';
+                            } else if (g >= 100 || a1c >= 5.7) {
+                                risk = 'MODERATE';
+                                conf = 87;
+                                explanation = 'Pre-diabetes range. Fasting glucose 100-125 or A1c 5.7-6.4% indicates increased risk.';
+                            }
+                            
+                            this.results.push({
+                                key: 'metabolic',
+                                title: 'Glycemic Status',
+                                risk: risk,
+                                confidence: conf,
+                                explanation: explanation
+                            });
+                        }
+                        
+                        // Cardiovascular assessment
+                        if (chol > 0 || ldl > 0) {
+                            let risk = 'LOW';
+                            let conf = 82;
+                            let explanation = 'Lipid panel within desirable ranges.';
+                            
+                            if (ldl >= 160 || chol >= 240) {
+                                risk = 'HIGH';
+                                conf = 89;
+                                explanation = 'Elevated cardiovascular risk. LDL ≥160 or total cholesterol ≥240 significantly increases risk per AHA guidelines.';
+                            } else if (ldl >= 130 || chol >= 200) {
+                                risk = 'MODERATE';
+                                conf = 84;
+                                explanation = 'Borderline high lipids. Consider lifestyle modifications.';
+                            }
+                            
+                            if (hdl < 40) {
+                                risk = risk === 'LOW' ? 'MODERATE' : risk;
+                                explanation += ' Low HDL (<40) is an independent risk factor.';
+                            }
+                            
+                            this.results.push({
+                                key: 'cardio',
+                                title: 'Cardiovascular Risk',
+                                risk: risk,
+                                confidence: conf,
+                                explanation: explanation
+                            });
+                        }
+                        
+                        // Metabolic syndrome check
+                        if (g > 0 && trig > 0 && hdl > 0) {
+                            let factors = 0;
+                            let details = [];
+                            
+                            if (g >= 100) { factors++; details.push('elevated glucose'); }
+                            if (trig >= 150) { factors++; details.push('high triglycerides'); }
+                            if (hdl < 40) { factors++; details.push('low HDL'); }
+                            
+                            let risk = factors >= 2 ? 'HIGH' : factors === 1 ? 'MODERATE' : 'LOW';
+                            let conf = 78 + (factors * 5);
+                            
+                            this.results.push({
+                                key: 'metsyn',
+                                title: 'Metabolic Syndrome Markers',
+                                risk: risk,
+                                confidence: conf,
+                                explanation: factors > 0 
+                                    ? `${factors} of 3 measured criteria present: ${details.join(', ')}. Note: Full assessment requires BP and waist circumference.`
+                                    : 'No metabolic syndrome markers detected in available data.'
+                            });
+                        }
+                        
+                        this.hasResults = true;
+                        this.processing = false;
+                    }, 1500);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
